@@ -6,7 +6,7 @@ import numpy as np
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-f', '--func', default='exp')
+parser.add_argument('-f', '--func', default='square')
 '''
 unittest가 있어서 testcode의 인자가 자꾸 unittest로 들어가는것 같다 
 -m unittest testcode.py -f square 으로 했을때 오류가 나서
