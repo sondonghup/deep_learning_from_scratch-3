@@ -1,4 +1,4 @@
-from step10 import Function
+from main import Function
 
 class Square(Function):
     def forward(self, x):
@@ -8,3 +8,6 @@ class Square(Function):
         x = self.input.data
         gx = 2 * x * gy
         return gx
+
+def square(x):
+    return Square()(x)

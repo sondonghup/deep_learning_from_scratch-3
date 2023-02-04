@@ -9,3 +9,6 @@ class Exp(Function):
         x = self.input.data
         gx = np.exp(x) * gy
         return gx
+
+def exp(x):
+    return Exp()(x)

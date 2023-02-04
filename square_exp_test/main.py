@@ -48,3 +48,6 @@ class Function():
     
     def backward(self, gy):
         raise NotImplementedError('역전파')
+
+
+
