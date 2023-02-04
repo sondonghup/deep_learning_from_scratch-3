@@ -88,8 +88,10 @@ elif args.func == 'cubic':
                 self.assertEqual(y_value.data, expected_value)
     
         def test_cubic_equation_backward(self):
-            x = Variable(np.array(1.0))
+            x = [Variable(np.array(1.0)), Variable(np.array(2.0))]
+            print('xxxx', x)
             y = cubic_equation(x)
+            print('와이의 값', y)
             y.backward()
             expected = np.array(3.0)
             self.assertAlmostEqual(x.grad, expected)
@@ -97,6 +99,7 @@ elif args.func == 'cubic':
         def test_auto_cubic_equation_backward(self):
             x = Variable(np.array([1.0, 2.0]))
             y = cubic_equation(x)
+            print('와이의 값', y)
             y.backward()
             expected = diffrentianl(cubic_equation, x)
             self.assertAlmostEqual(x.grad, expected)
