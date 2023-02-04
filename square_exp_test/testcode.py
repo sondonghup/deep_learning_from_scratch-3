@@ -2,11 +2,12 @@ import unittest
 from main import Variable
 from square_func import square
 from exp_func import exp
+from cubic_equation_func import cubic_equation
 import numpy as np
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-f', '--func', default='square')
+parser.add_argument('-f', '--func', default='cubic')
 '''
 unittest가 있어서 testcode의 인자가 자꾸 unittest로 들어가는것 같다 
 -m unittest testcode.py -f square 으로 했을때 오류가 나서
@@ -75,5 +76,27 @@ elif args.func == 'exp':
             # compare = np.allclose(x.grad, expected)
             # self.assertTrue(compare)
 
+elif args.func == 'cubic':
+    print('cubic equation 입니다.')
+    class Cubic_equation_test(unittest.TestCase):
+        def test_cubic_equation(self):
+            x = Variable(np.array(1.0))
+            y = cubic_equation(x)
+            expected = np.array(4.0)
+            self.assertEqual(y.data, expected)
+    
+        def test_cubic_equation_backward(self):
+            x = Variable(np.array(1.0))
+            y = cubic_equation(x)
+            y.backward()
+            expected = np.array(3.0)
+            self.assertAlmostEqual(x.grad, expected)
+        
+        def test_auto_cubic_equation_backward(self):
+            x = Variable(np.array(1.0))
+            y = cubic_equation(x)
+            y.backward()
+            expected = diffrentianl(cubic_equation, x)
+            self.assertAlmostEqual(x.grad, expected)
 
 unittest.main()
