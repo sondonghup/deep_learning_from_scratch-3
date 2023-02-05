@@ -10,7 +10,7 @@ class Square(Function):
         return x ** 2
 
     def backward(self, gy: np.ndarray) -> float:
-        x = self.input.data
+        x = self.inputs[0].data
         gx = 2 * x * gy
         return gx
 

@@ -9,17 +9,11 @@ class Cubic_equation(Function):
         return 3 * (x ** 3) - 2 * (x ** 2) + 5 
 
     def forward(self, inputs: np.ndarray) -> float:
-        outputs = []
-        for input in inputs:
-            outputs.append(self.equation(input))
-        return outputs
+        return self.equation(inputs)
 
     def backward(self, gys: np.ndarray) -> float:
-        x = self.input.data
-        gxs = []
-        for x, gy in zip(self.input.data, gys):
-            gx = ( 9 * (x ** 2) - 4 * x ) * gy
-            gxs.append(gx)
+        x = self.inputs[0].data
+        gxs = ( 9 * (x ** 2) - 4 * x ) * gys
         return gxs 
 
 def cubic_equation(x):

@@ -6,11 +6,11 @@ from main import Function
 import numpy as np
 
 class Exp(Function):
-    def forward(self, input: np.ndarray) -> float:
-        return np.exp(input)
+    def forward(self, inputs: np.ndarray) -> float:
+        return np.exp(inputs)
 
     def backward(self, gy:np.ndarray) -> float:
-        x = self.input.data
+        x = self.inputs[0].data
         gx = np.exp(x) * gy
         return gx
 
