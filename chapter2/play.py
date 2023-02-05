@@ -16,8 +16,12 @@ if __name__ == '__main__':
         x0, x1 = map(int, input().split())
         x0 = Variable(np.array(x0))
         x1 = Variable(np.array(x1))
-        y = add(x0, x1)
-        print(y)
+        y = add(x0, x0)
+        y.backward()
+        print(y.data)
+        print(x0.grad)
+        print(x1.grad)
+
 
     elif args.func == 'cubic':
         x = int(input())

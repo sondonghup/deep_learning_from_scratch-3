@@ -33,10 +33,21 @@ class Variable:
                 gxs = (gxs, )
             
             for x, gx in zip(f.inputs, gxs):
-                x.grad = gx
+                if x.grad == None:
+                    x.grad = gx
+                else :
+                    x.grad += gx
                 
                 if x.creator is not None:
                     funcs.append(x.creator)
+
+    def cleargrad(self):
+        '''
+        기존에 같은 변수를 여러번 사용하여 연산할경우 grad가 덮어 씌여지는 것을 해결 하기 위해 grad를 매번 더해주는 것을
+        backward에서 진행 하였으나 완전 다른 연산을 할때에도 계속 grad가 더해져 다음값에 문제가 생김
+        역전파를 할때마다 grad를 초기화 해주자
+        '''
+        self.grad = None
 
 class Function:
     def __call__(self, *inputs):
