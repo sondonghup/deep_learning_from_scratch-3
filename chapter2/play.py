@@ -47,3 +47,10 @@ if __name__ == '__main__':
         print(x.grad)
         print(y)
     
+    elif args.func == 'custom':
+        x0 = Variable(np.array(1.0))
+        x1 = Variable(np.array(2.0))
+        y0 = square(x0)
+        y1 = add(y0, y0)
+        y1.backward()
+        print(y1.grad)

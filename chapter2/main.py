@@ -8,13 +8,21 @@ class Variable:
                 raise TypeError('np.ndarray 자료형을 입력으로 넣어주세요')
         self.data = data
         self.grad = None # 미분값
-        self.creator = None # 변수를 기준으로 함수는 creator 
+        self.creator = None # 변수를 기준으로 함수는 creator
+        self.generation = 0
+
+    def print(self):
+        print('data', self.data)
+        print('grad', self.grad)
+        print('creator', self.creator)
+        print('generation', self.generation)
     
     def set_creator(self, func) -> None:
         '''
         func은 함수
         '''
         self.creator = func # 함수
+        self.generation = func.generation + 1
     
     def backward(self) -> None:
         funcs = [self.creator] # 함수를 리스트로
@@ -37,7 +45,8 @@ class Variable:
                     x.grad = gx
                 else :
                     x.grad += gx
-                
+                print(x.creator)
+                print('xxx', x.generation)
                 if x.creator is not None:
                     funcs.append(x.creator)
 
@@ -57,7 +66,10 @@ class Function:
             ys = (ys, )
         outputs = [Variable(as_array(y)) for y in ys]
         for output in outputs:
+            output.print()
+            print(self.forward())
             output.set_creator(self)
+           
         self.inputs = inputs
         self.outputs = outputs
         return outputs if len(outputs) > 1 else outputs[0]

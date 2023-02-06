@@ -17,5 +17,4 @@ class Cubic_equation(Function):
         return gxs 
 
 def cubic_equation(x):
-    print('시발련아', x)
     return Cubic_equation()(x)
