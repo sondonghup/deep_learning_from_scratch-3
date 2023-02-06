@@ -25,13 +25,24 @@ class Variable:
         self.generation = func.generation + 1
     
     def backward(self) -> None:
-        funcs = [self.creator] # 함수를 리스트로
         '''
         역전파를 할때 첫 값은 1.0이라 grad값이 없을때 1.0을 넣어주려 했으나 다른 방법이 있었음
         여러 값이 들어 올땐 적합하지 않음
         '''
         if self.grad == None:
             self.grad = np.ones_like(self.data)
+
+        funcs = []
+        seen_set = set()
+
+        def add_func(f):
+            if f not in seen_set:
+                funcs.append(f)
+                seen_set.add(f)
+                funcs.sort(key=lambda x: x.generation)
+        
+        add_func(self.creator)
+
 
         while funcs:
             f = funcs.pop() # 함수를 하나하나 꺼내옴
@@ -48,7 +59,7 @@ class Variable:
                 print(x.creator)
                 print('xxx', x.generation)
                 if x.creator is not None:
-                    funcs.append(x.creator)
+                    add_func(x.creator)
 
     def cleargrad(self):
         '''
@@ -65,9 +76,9 @@ class Function:
         if not isinstance(ys, tuple):
             ys = (ys, )
         outputs = [Variable(as_array(y)) for y in ys]
+        self.generation = max([x.generation for x in inputs])
+
         for output in outputs:
-            output.print()
-            print(self.forward())
             output.set_creator(self)
            
         self.inputs = inputs
